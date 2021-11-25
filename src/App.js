@@ -6,6 +6,7 @@ import React from 'react';
 import Grid from  '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ComplexGrid from "./componentes/Options"
+import Image from "./fondo.jpg"
 //import Header from './components/Header'
 //import Footer from './components/Footer'
 
@@ -22,7 +23,7 @@ class App extends React.Component {
     }
     getInfo(){
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer BQBPp6LGpvwm7_tLENFfadLD2AJAgMOPCsLFJYCjQLZUrIraOpd118dgUHdQrsmQ5Y0VQx6hnGxxFJ3tMJKTEEUpuOzKH-MkCqzNMOcEdhyEe-QKlWznJ8UdIluZHbbwTHUkuum0cdEYzd3MZ6984mAbdHCWw03ziLShIol6a813PaspmQ");
+      myHeaders.append("Authorization", "Bearer BQC0U58NrOzOiUxpp1LpGorrvZqBj4BOvity79SndT5xzgKlsw7reuK1B14APvE9sjJkiHDD3w4rLZOUhU_y0VxGNE16AY5ziBvy1offTWw4iJMpExNnP2WCEb9ZPxdwuyKjFQd4D8wnJf5jfaDsuw2V8zde_OMw1vg-DcPa1fxRBKvG-A");
       
       var requestOptions = {
         method: 'GET',
@@ -33,11 +34,14 @@ class App extends React.Component {
       fetch("https://api.spotify.com/v1/search?query=" + this.state.busqueda + "&type=artist,album,track&include_external=audio&offset=0&limit=5", requestOptions)
         .then(response => response.json())
         .then(result => {console.log(result)
-           this.setState({artists: result.artists.items,song: result.tracks.items},()=>console.log(this.state.artista,this.state.song))
+           this.setState({artists: result.artists.items},()=>console.log(this.state.artista))
         
         
         })
-        .catch(error => console.log('error', error));
+        .catch(error => {
+          console.log('error', error)
+          alert("Se ha encontrado un error en la app")
+        });
     }
     render(){
         return (<div>
@@ -59,48 +63,13 @@ class App extends React.Component {
                 {
                   return(
                   <Paper style={{width:"500px"}}>
-                  {m.images != undefined && <ComplexGrid name={m.name} imagen={m.images[0].url} genres={m.genres[0]}> </ComplexGrid>}
+                    {m.images.length != 0 && m.images != undefined ? <ComplexGrid name={m.name} imagen={m.images[0].url} genres={m.genres[0]}/>:  <ComplexGrid name={m.name} imagen={Image} genres={m.genres[0]} followers={m.followers.total}/>}
                   </Paper>)
                 })
               }
             </Grid>
-            <Grid item xs={4}>
-            <Paper style={{width:"500px"}}>
-            {
-                this.state.song.map(function(m)
-                {
-                  return(
-                  <Paper style={{width:"500px"}}>
-                  {m.images != undefined && <ComplexGrid name={m.name} imagen={m.images[0].url} genres={m.genres[0]}> </ComplexGrid>}
-                  </Paper>)
-                })
-              }
-            </Paper>
-            </Grid>
+           
             </div>);
     }
 }
-/*function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-      <TextField id="standard-basic" label="Standard" />
-      <Button variant="contained">Default</Button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-*/
 export default App;

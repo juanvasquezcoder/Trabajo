@@ -27,12 +27,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-interface Info{name: string, genres: string, imagen: string}
+interface Info{name: string, imagen: string, followers:string}
 export default function ComplexGrid(props:Info) {
   const classes = useStyles();
   const name = props.name
-  const genres = props.genres
   const imagen = props.imagen
+  var  followers = props.followers
+  if ( followers === ''){
+    followers = '0'
+  }
+ 
   return (
  
     <div className={classes.root}>
@@ -51,14 +55,11 @@ export default function ComplexGrid(props:Info) {
                 <Typography gutterBottom variant="subtitle1">
                   {name}
                 </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {genres}
-                </Typography>
+              
                 <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
+                 seguidores: {followers}
                 </Typography>
               </Grid>
-
             </Grid>
           </Grid>
         </Grid>
